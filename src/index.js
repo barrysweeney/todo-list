@@ -1,5 +1,9 @@
+// TODO: clean UI
+// TODO: refactor
+
 import loadTasks from "./loadTasks";
 import loadProjects from "./loadProjects";
+import css from "./index.css"
 
 class Task {
   constructor(id, title, description, dueDate, priority) {
@@ -13,7 +17,7 @@ class Task {
 
 class Project {
   constructor(id, name) {
-    this.id = id
+    this.id = id;
     this.name = name;
     this.tasks = [];
   }
@@ -21,10 +25,18 @@ class Project {
 
 let tasks = [];
 let projects = [];
+const taskForm = document.getElementById("taskForm");
+const projectForm = document.getElementById("projectForm");
 
 (function startUp() {
   getTasks();
-  loadTasks(tasks);
+  loadTasks(tasks, projects);
+})();
+
+(function addImage() {
+  let tasksPage = document.getElementById("tasksPage");
+  let imageSource = "background.jpg";
+  tasksPage.style.cssText = `background-image: url(${imageSource});`;
 })();
 
 function getTasks() {
@@ -40,69 +52,7 @@ function getProjects() {
 }
 
 const submitTaskButton = document.getElementById("submitTask");
-const submitProjectButton = document.getElementById("submitProject");
-const newTaskButton = document.getElementById("newTask");
-const newProjectButton = document.getElementById("newProject");
-const projectsTab = document.getElementById("projectsTab");
-
-projectsTab.addEventListener("click", function() {
-  if (tasksTab.classList.contains("active")) {
-    tasksTab.classList.remove("active");
-    projectsTab.classList.add("active");
-    toggleTasksPage();
-    toggleProjectsPage();
-    getProjects();
-    loadProjects(projects, tasks);
-  }
-});
-
-const tasksTab = document.getElementById("tasksTab");
-
-tasksTab.addEventListener("click", function() {
-  if (projectsTab.classList.contains("active")) {
-    projectsTab.classList.remove("active");
-    tasksTab.classList.add("active");
-    toggleProjectsPage();
-    toggleTasksPage();
-    getTasks();
-    loadTasks(tasks);
-  }
-});
-
-newTaskButton.addEventListener("click", toggleTaskForm);
-newProjectButton.addEventListener("click", toggleProjectForm);
 submitTaskButton.addEventListener("click", createNewTask);
-submitProjectButton.addEventListener("click", createNewProject);
-const taskForm = document.getElementById("taskForm");
-const projectForm = document.getElementById("projectForm");
-
-function toggleProjectForm() {
-  if (projectForm.className === "d-none") {
-    projectForm.className = "d-block";
-  } else {
-    projectForm.className = "d-none";
-  }
-}
-
-function toggleTaskForm() {
-  if (taskForm.className === "d-none") {
-    taskForm.className = "d-block";
-  } else {
-    taskForm.className = "d-none";
-  }
-}
-
-function createNewProject() {
-  let id = projects.length
-  let name = document.getElementById("inputName").value;
-  let project = new Project(id, name);
-  projects.push(project);
-  projectForm.reset();
-  localStorage.setItem("projects", JSON.stringify(projects));
-  loadProjects(projects, tasks);
-  toggleProjectForm();
-}
-
 function createNewTask() {
   let id = tasks.length;
   let title = document.getElementById("inputTitle").value;
@@ -119,14 +69,71 @@ function createNewTask() {
   if (document.getElementById("inputPriorityLow").checked) {
     priority = document.getElementById("inputPriorityLow").value;
   }
-  let task = new Task(id,title, description, dueDate, priority);
+  let task = new Task(id, title, description, dueDate, priority);
   tasks.push(task);
   taskForm.reset();
   // add tasks to local storage
   localStorage.setItem("tasks", JSON.stringify(tasks));
-  loadTasks(tasks);
+  loadTasks(tasks, projects);
   toggleTaskForm();
 }
+
+const newTaskButton = document.getElementById("newTask");
+newTaskButton.addEventListener("click", toggleTaskForm);
+function toggleTaskForm() {
+  if (taskForm.className === "d-none") {
+    taskForm.className = "d-block";
+  } else {
+    taskForm.className = "d-none";
+  }
+}
+
+const newProjectButton = document.getElementById("newProject");
+newProjectButton.addEventListener("click", toggleProjectForm);
+function toggleProjectForm() {
+  if (projectForm.className === "d-none") {
+    projectForm.className = "d-block";
+  } else {
+    projectForm.className = "d-none";
+  }
+}
+
+const submitProjectButton = document.getElementById("submitProject");
+submitProjectButton.addEventListener("click", createNewProject);
+function createNewProject() {
+  let id = projects.length;
+  let name = document.getElementById("inputName").value;
+  let project = new Project(id, name);
+  projects.push(project);
+  projectForm.reset();
+  localStorage.setItem("projects", JSON.stringify(projects));
+  loadProjects(projects, tasks);
+  toggleProjectForm();
+}
+
+const projectsTab = document.getElementById("projectsTab");
+projectsTab.addEventListener("click", function() {
+  if (tasksTab.classList.contains("active")) {
+    tasksTab.classList.remove("active");
+    projectsTab.classList.add("active");
+    toggleTasksPage();
+    toggleProjectsPage();
+    getProjects();
+    loadProjects(projects, tasks);
+  }
+});
+
+const tasksTab = document.getElementById("tasksTab");
+tasksTab.addEventListener("click", function() {
+  if (projectsTab.classList.contains("active")) {
+    projectsTab.classList.remove("active");
+    tasksTab.classList.add("active");
+    toggleProjectsPage();
+    toggleTasksPage();
+    getTasks();
+    loadTasks(tasks, projects);
+  }
+});
 
 function toggleTasksPage() {
   let tasksPage = document.getElementById("tasksPage");

@@ -1,11 +1,27 @@
-function loadTasks(tasks) {
-  let taskContainer = document.getElementById("taskContainer");
+function loadTasks(tasks, projects) {
+  const taskContainer = document.getElementById("taskContainer");
+
+  (function renderTasks() {
+    taskContainer.innerHTML = "";
+    for (let i = 0; i < tasks.length; i++) {
+      let taskDiv = document.createElement("div");
+      taskDiv.id = `${i}`;
+      taskDiv.className = "card";
+      let p = document.createElement("p");
+      p.innerHTML = `${tasks[i].title} is due on ${tasks[i].dueDate}`;
+      taskContainer.appendChild(taskDiv);
+      taskDiv.appendChild(p);
+      taskDiv.appendChild(toggleExpandTaskButton());
+      taskDiv.appendChild(createDeleteButton());
+    }
+  })();
 
   function deleteTask() {
     let taskIndex = parseInt(this.parentNode.id);
+    deleteTaskFromProjects(projects, tasks, taskIndex);
     tasks.splice(taskIndex, 1);
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-    loadTasks(tasks);
+    updateTasks(tasks);
+    updateProjects(projects);
   }
 
   function createDeleteButton() {
@@ -16,46 +32,53 @@ function loadTasks(tasks) {
     return deleteButton;
   }
 
-  function expandTask(){
-    if(this.parentNode.firstElementChild.childElementCount === 0){
-      this.innerHTML = "See less info"
-    let taskIndex = parseInt(this.parentNode.id)
-    let p1 = document.createElement("p")
-    p1.innerHTML = `${tasks[taskIndex].description}`
-    let p2 = document.createElement("p")
-    p2.innerHTML = `${tasks[taskIndex].priority} priority`
-    this.parentNode.firstElementChild.appendChild(p1)
-    this.parentNode.firstElementChild.appendChild(p2)
-    }else{
-      this.innerHTML = "See more info"
-      this.parentNode.firstElementChild.removeChild(this.parentNode.firstElementChild.firstElementChild);
-      this.parentNode.firstElementChild.removeChild(this.parentNode.firstElementChild.firstElementChild);
+  function toggleExpandTask() {
+    if (this.parentNode.firstElementChild.childElementCount === 0) {
+      this.innerHTML = "See less info";
+      let taskIndex = parseInt(this.parentNode.id);
+      let p1 = document.createElement("p");
+      p1.innerHTML = `${tasks[taskIndex].description}`;
+      let p2 = document.createElement("p");
+      p2.innerHTML = `${tasks[taskIndex].priority} priority`;
+      this.parentNode.firstElementChild.appendChild(p1);
+      this.parentNode.firstElementChild.appendChild(p2);
+    } else {
+      this.innerHTML = "See more info";
+      this.parentNode.firstElementChild.removeChild(
+        this.parentNode.firstElementChild.firstElementChild
+      );
+      this.parentNode.firstElementChild.removeChild(
+        this.parentNode.firstElementChild.firstElementChild
+      );
     }
   }
 
-  function createMoreInfoButton() {
+  function toggleExpandTaskButton() {
     let moreInfoButton = document.createElement("button");
     moreInfoButton.innerHTML = "See more info";
-    moreInfoButton.className = "btn btn-secondary";
-    moreInfoButton.addEventListener("click", expandTask);
+    moreInfoButton.className = "btn btn-info";
+    moreInfoButton.addEventListener("click", toggleExpandTask);
     return moreInfoButton;
   }
+}
 
-  (function renderTasks() {
-    taskContainer.innerHTML = "";
-    for (let i = 0; i < tasks.length; i++) {
-      let taskDiv = document.createElement("div");
-      taskDiv.id = `${i}`;
-      taskDiv.className="card"
-      let p = document.createElement("p")
-      p.innerHTML = `${tasks[i].title} is due on ${tasks[i].dueDate}`;
-      taskContainer.appendChild(taskDiv);
-      taskDiv.appendChild(p);
-      taskDiv.appendChild(createMoreInfoButton());
-      taskDiv.appendChild(createDeleteButton());
-      
+function deleteTaskFromProjects(projects, tasks, taskIndex) {
+  for (let j = 0; j < projects.length; j++) {
+    for (let i = 0; i < projects[j].tasks.length; i++) {
+      if (projects[j].tasks[i].id === tasks[taskIndex].id) {
+        projects[j].tasks.splice(taskIndex, 1);
+      }
     }
-  })();
+  }
+}
+
+function updateProjects(projects) {
+  localStorage.setItem("projects", JSON.stringify(projects));
+}
+
+function updateTasks(tasks) {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+  loadTasks(tasks);
 }
 
 export default loadTasks;
