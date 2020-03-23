@@ -10,16 +10,14 @@ function loadTasks(tasks) {
 
   function createDeleteButton() {
     let deleteButton = document.createElement("button");
-    deleteButton.innerHTML = "Remove";
-    deleteButton.className = "btn btn-secondary";
+    deleteButton.innerHTML = "Delete";
+    deleteButton.className = "btn btn-danger";
     deleteButton.addEventListener("click", deleteTask);
     return deleteButton;
   }
 
-  let expanded = false;
   function expandTask(){
-    if(expanded === false){
-    expanded = true;
+    if(this.parentNode.firstElementChild.childElementCount === 0){
     let taskIndex = parseInt(this.parentNode.id)
     let p1 = document.createElement("p")
     p1.innerHTML = `${tasks[taskIndex].description}`
@@ -48,8 +46,9 @@ function loadTasks(tasks) {
       p.innerHTML = `${tasks[i].title} is due on ${tasks[i].dueDate}`;
       taskContainer.appendChild(taskDiv);
       taskDiv.appendChild(p);
-      taskDiv.appendChild(createDeleteButton());
       taskDiv.appendChild(createMoreInfoButton());
+      taskDiv.appendChild(createDeleteButton());
+      
     }
   })();
 }
