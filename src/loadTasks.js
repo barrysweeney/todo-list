@@ -18,6 +18,7 @@ function loadTasks(tasks) {
 
   function expandTask(){
     if(this.parentNode.firstElementChild.childElementCount === 0){
+      this.innerHTML = "See less info"
     let taskIndex = parseInt(this.parentNode.id)
     let p1 = document.createElement("p")
     p1.innerHTML = `${tasks[taskIndex].description}`
@@ -25,6 +26,10 @@ function loadTasks(tasks) {
     p2.innerHTML = `${tasks[taskIndex].priority} priority`
     this.parentNode.firstElementChild.appendChild(p1)
     this.parentNode.firstElementChild.appendChild(p2)
+    }else{
+      this.innerHTML = "See more info"
+      this.parentNode.firstElementChild.removeChild(this.parentNode.firstElementChild.firstElementChild);
+      this.parentNode.firstElementChild.removeChild(this.parentNode.firstElementChild.firstElementChild);
     }
   }
 

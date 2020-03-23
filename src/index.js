@@ -1,5 +1,5 @@
 // TODO: allow user to add tasks to different projects
-// TODO: allow user to see taks for each project
+// TODO: allow user to see tasks for each project
 
 import loadTasks from "./loadTasks";
 import loadProjects from "./loadProjects";
@@ -52,7 +52,7 @@ projectsTab.addEventListener("click", function() {
     toggleTasksPage();
     toggleProjectsPage();
     getProjects();
-    loadProjects(projects);
+    loadProjects(projects, tasks);
   }
 });
 
@@ -98,7 +98,7 @@ function createNewProject() {
   projects.push(project);
   projectForm.reset();
   localStorage.setItem("projects", JSON.stringify(projects));
-  loadProjects(projects);
+  loadProjects(projects, tasks);
   toggleProjectForm();
 }
 
