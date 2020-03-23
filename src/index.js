@@ -1,7 +1,7 @@
 // TODO: allow user to add tasks to different projects
 // TODO: allow user to see taks for each project
-// TODO: allow user to expand task to see mor einfo
-// TODO: allow user tto delete task
+// TODO: allow user to expand task to see more info
+// TODO: allow user to delete projects
 
 import loadTasks from "./loadTasks";
 import loadProjects from "./loadProjects";
@@ -101,6 +101,7 @@ function createNewProject() {
   projectForm.reset();
   localStorage.setItem("projects", JSON.stringify(projects));
   loadProjects(projects);
+  toggleProjectForm();
 }
 
 function createNewTask() {
@@ -124,6 +125,7 @@ function createNewTask() {
   // add tasks to local storage
   localStorage.setItem("tasks", JSON.stringify(tasks));
   loadTasks(tasks);
+  toggleTaskForm();
 }
 
 function toggleTasksPage() {
