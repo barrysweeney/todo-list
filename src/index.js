@@ -1,11 +1,9 @@
-// TODO: allow user to add tasks to different projects
-// TODO: allow user to see tasks for each project
-
 import loadTasks from "./loadTasks";
 import loadProjects from "./loadProjects";
 
 class Task {
-  constructor(title, description, dueDate, priority) {
+  constructor(id, title, description, dueDate, priority) {
+    this.id = id;
     this.title = title;
     this.description = description;
     this.dueDate = dueDate;
@@ -14,8 +12,10 @@ class Task {
 }
 
 class Project {
-  constructor(name) {
+  constructor(id, name) {
+    this.id = id
     this.name = name;
+    this.tasks = [];
   }
 }
 
@@ -93,8 +93,9 @@ function toggleTaskForm() {
 }
 
 function createNewProject() {
+  let id = projects.length
   let name = document.getElementById("inputName").value;
-  let project = new Project(name);
+  let project = new Project(id, name);
   projects.push(project);
   projectForm.reset();
   localStorage.setItem("projects", JSON.stringify(projects));
@@ -103,6 +104,7 @@ function createNewProject() {
 }
 
 function createNewTask() {
+  let id = tasks.length;
   let title = document.getElementById("inputTitle").value;
   let description = document.getElementById("inputDescription").value;
   let dueDate = document.getElementById("inputDueDate").value;
@@ -117,7 +119,7 @@ function createNewTask() {
   if (document.getElementById("inputPriorityLow").checked) {
     priority = document.getElementById("inputPriorityLow").value;
   }
-  let task = new Task(title, description, dueDate, priority);
+  let task = new Task(id,title, description, dueDate, priority);
   tasks.push(task);
   taskForm.reset();
   // add tasks to local storage
