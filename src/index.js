@@ -1,6 +1,5 @@
 // TODO: allow user to add tasks to different projects
 // TODO: allow user to see taks for each project
-// TODO: allow user to expand task to see more info
 // TODO: allow user to delete projects
 
 import loadTasks from "./loadTasks";
