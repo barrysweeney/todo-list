@@ -1,3 +1,5 @@
+import { formatDistanceToNow, parseISO, isPast } from "date-fns";
+
 function loadTasks(tasks, projects) {
   const taskContainer = document.getElementById("taskContainer");
 
@@ -14,7 +16,15 @@ function loadTasks(tasks, projects) {
       taskDiv.id = `${i}`;
       taskDiv.className = "card";
       let p = document.createElement("p");
-      p.innerHTML = `${tasks[i].title} is due on ${tasks[i].dueDate}`;
+      let date = parseISO(tasks[i].dueDate);
+      let formattedDueDate;
+      if (isPast(date)) {
+        formattedDueDate = `${formatDistanceToNow(date)} ago`;
+        p.innerHTML = `${tasks[i].title} was due  ${formattedDueDate}`;
+      } else {
+        formattedDueDate = `${formatDistanceToNow(date)}`;
+        p.innerHTML = `${tasks[i].title} is due in ${formattedDueDate}`;
+      }
       taskContainer.appendChild(taskDiv);
       taskDiv.appendChild(p);
       taskDiv.appendChild(toggleExpandTaskButton());
@@ -26,7 +36,7 @@ function loadTasks(tasks, projects) {
     let taskIndex = parseInt(this.parentNode.id);
     deleteTaskFromProjects(projects, tasks, taskIndex);
     tasks.splice(taskIndex, 1);
-    updateTasks(tasks);
+    updateTasks(tasks, projects);
     updateProjects(projects);
   }
 
@@ -82,7 +92,16 @@ function updateProjects(projects) {
   localStorage.setItem("projects", JSON.stringify(projects));
 }
 
-function updateTasks(tasks) {
+function updateTasks(tasks, projects) {
+  // updates id of tasks in the tasks and projects arrays
+  for (let j = 0; j < tasks.length; j++) {
+    for (let i = 0; i < projects[j].tasks.length; i++) {
+      if (projects[j].tasks[i].id === tasks[j].id) {
+        projects[j].tasks[i].id = j;
+      }
+    }
+    tasks[j].id = j;
+  }
   localStorage.setItem("tasks", JSON.stringify(tasks));
   loadTasks(tasks);
 }
