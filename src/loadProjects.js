@@ -1,6 +1,12 @@
 function loadProjects(projects, tasks) {
   let projectsContainer = document.getElementById("projectsContainer");
 
+  (function addBackgroundImage() {
+    let projectsPage = document.getElementById("projectsPage");
+    let imageSource = "hike.jpg";
+    projectsPage.style.cssText = `background-image: url(${imageSource});`;
+  })();
+
   function deleteProject() {
     let projectIndex = parseInt(this.parentNode.id);
     projects.splice(projectIndex, 1);
@@ -33,7 +39,7 @@ function loadProjects(projects, tasks) {
   }
 
   (function renderProjects() {
-    projectsContainer.innerHTML = "";
+    projectsContainer.innerHTML = "Projects:";
     for (let i = 0; i < projects.length; i++) {
       let projectDiv = document.createElement("div");
       projectDiv.className = "card";
@@ -73,6 +79,9 @@ function renderAddedTask(tasks, taskID, node) {
 }
 
 function updateProjects(projects, tasks) {
+  for (let i = 0; i < projects.length; i++) {
+    projects[i].id = i;
+  }
   localStorage.setItem("projects", JSON.stringify(projects));
   loadProjects(projects, tasks);
 }

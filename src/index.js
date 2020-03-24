@@ -1,9 +1,6 @@
-// TODO: clean UI
-// TODO: refactor
-
 import loadTasks from "./loadTasks";
 import loadProjects from "./loadProjects";
-import css from "./index.css"
+import css from "./index.css";
 
 class Task {
   constructor(id, title, description, dueDate, priority) {
@@ -33,12 +30,6 @@ const projectForm = document.getElementById("projectForm");
   loadTasks(tasks, projects);
 })();
 
-(function addImage() {
-  let tasksPage = document.getElementById("tasksPage");
-  let imageSource = "background.jpg";
-  tasksPage.style.cssText = `background-image: url(${imageSource});`;
-})();
-
 function getTasks() {
   if (JSON.parse(localStorage.getItem("tasks")) !== null) {
     tasks = JSON.parse(localStorage.getItem("tasks"));
@@ -54,28 +45,37 @@ function getProjects() {
 const submitTaskButton = document.getElementById("submitTask");
 submitTaskButton.addEventListener("click", createNewTask);
 function createNewTask() {
-  let id = tasks.length;
-  let title = document.getElementById("inputTitle").value;
-  let description = document.getElementById("inputDescription").value;
-  let dueDate = document.getElementById("inputDueDate").value;
-  let priority;
-  // getting which priority radio button has been checked
-  if (document.getElementById("inputPriorityHigh").checked) {
-    priority = document.getElementById("inputPriorityHigh").value;
+  // check data is input in the relevant fields
+  if (
+    (document.getElementById("inputPriorityHigh").checked ||
+      document.getElementById("inputPriorityMedium").checked ||
+      document.getElementById("inputPriorityLow").checked) &&
+    document.getElementById("inputTitle").value.length > 0 &&
+    document.getElementById("inputDueDate").value.length
+  ) {
+    let id = tasks.length;
+    let title = document.getElementById("inputTitle").value;
+    let description = document.getElementById("inputDescription").value;
+    let dueDate = document.getElementById("inputDueDate").value;
+    let priority;
+    // getting which priority radio button has been checked
+    if (document.getElementById("inputPriorityHigh").checked) {
+      priority = document.getElementById("inputPriorityHigh").value;
+    }
+    if (document.getElementById("inputPriorityMedium").checked) {
+      priority = document.getElementById("inputPriorityMedium").value;
+    }
+    if (document.getElementById("inputPriorityLow").checked) {
+      priority = document.getElementById("inputPriorityLow").value;
+    }
+    let task = new Task(id, title, description, dueDate, priority);
+    tasks.push(task);
+    taskForm.reset();
+    // add tasks to local storage
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    loadTasks(tasks, projects);
+    toggleTaskForm();
   }
-  if (document.getElementById("inputPriorityMedium").checked) {
-    priority = document.getElementById("inputPriorityMedium").value;
-  }
-  if (document.getElementById("inputPriorityLow").checked) {
-    priority = document.getElementById("inputPriorityLow").value;
-  }
-  let task = new Task(id, title, description, dueDate, priority);
-  tasks.push(task);
-  taskForm.reset();
-  // add tasks to local storage
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-  loadTasks(tasks, projects);
-  toggleTaskForm();
 }
 
 const newTaskButton = document.getElementById("newTask");

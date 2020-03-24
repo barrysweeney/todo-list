@@ -1,8 +1,14 @@
 function loadTasks(tasks, projects) {
   const taskContainer = document.getElementById("taskContainer");
 
+  (function addBackgroundImage() {
+    let tasksPage = document.getElementById("tasksPage");
+    let imageSource = "background.jpg";
+    tasksPage.style.cssText = `background-image: url(${imageSource});`;
+  })();
+
   (function renderTasks() {
-    taskContainer.innerHTML = "";
+    taskContainer.innerHTML = "To do:";
     for (let i = 0; i < tasks.length; i++) {
       let taskDiv = document.createElement("div");
       taskDiv.id = `${i}`;

@@ -22,53 +22,58 @@
         </nav>
     </div>
     <div class="container d-block" id="tasksPage">
-        <div class="container" id="taskContainer"></div>
-        <button class="btn btn-success" id="newTask">New Task</button>
-        <form id="taskForm" class="d-none">
-            <div class="form-group">
-                <label for="inputTitle">Title</label>
-                <input type="text" class="form-control" id="inputTitle" placeholder="Enter title" required>
-            </div>
-            <div class="form-group">
-                <label for="inputDescription">Description</label>
-                <input type="text" class="form-control" id="inputDescription" placeholder="Enter description" required>
-            </div>
-            <div class="form-group">
-                <label for="inputDueDate">Due Date</label>
-                <input type="date" class="form-control" id="inputDueDate">
-            </div>
-            <div class="form-group">
-                <label for="inputPriorityHigh">Priority</label><br>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inputPriorityHigh"
-                        value="High">
-                    <label class="form-check-label" for="inputPriorityHigh">High</label>
+        <div class="container jumbotron" id="taskContainer"></div>
+        <div class="jumbotron">
+            <button class="btn btn-success" id="newTask">New Task</button>
+            <form id="taskForm" class="d-none">
+                <div class="form-group">
+                    <label for="inputTitle">Title</label>
+                    <input type="text" class="form-control" id="inputTitle" placeholder="Enter title" required>
                 </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inputPriorityMedium"
-                        value="Medium">
-                    <label class="form-check-label" for="inputPriorityMedium">Medium</label>
+                <div class="form-group">
+                    <label for="inputDescription">Description</label>
+                    <input type="text" class="form-control" id="inputDescription" placeholder="Enter description"
+                        required>
                 </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inputPriorityLow"
-                        value="Low">
-                    <label class="form-check-label" for="inputPriorityLow">Low</label>
+                <div class="form-group">
+                    <label for="inputDueDate">Due Date</label>
+                    <input type="date" class="form-control" id="inputDueDate">
                 </div>
-            </div>
-            <button type="submit" class="btn btn-primary" id="submitTask">Submit</button>
-        </form>
+                <div class="form-group">
+                    <label for="inputPriorityHigh">Priority</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inputPriorityHigh"
+                            value="High">
+                        <label class="form-check-label" for="inputPriorityHigh">High</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inputPriorityMedium"
+                            value="Medium">
+                        <label class="form-check-label" for="inputPriorityMedium">Medium</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inputPriorityLow"
+                            value="Low">
+                        <label class="form-check-label" for="inputPriorityLow">Low</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" id="submitTask">Submit</button>
+            </form>
+        </div>
     </div>
     </div>
     <div class="container d-none" id="projectsPage">
-        <div class="container" id="projectsContainer"></div>
-        <button class="btn btn-success" id="newProject">New Project</button>
-        <form id="projectForm" class="d-none">
-            <div class="form-group">
-                <label for="inputName">Name</label>
-                <input type="text" class="form-control" id="inputName" placeholder="Enter name" required>
-            </div>
-            <button type="submit" class="btn btn-primary" id="submitProject">Submit</button>
-        </form>
+        <div class="container jumbotron" id="projectsContainer"></div>
+        <div class="jumbotron">
+            <button class="btn btn-success" id="newProject">New Project</button>
+            <form id="projectForm" class="d-none">
+                <div class="form-group">
+                    <label for="inputName">Project Name</label>
+                    <input type="text" class="form-control" id="inputName" placeholder="Enter name" required>
+                </div>
+                <button type="submit" class="btn btn-primary" id="submitProject">Submit</button>
+            </form>
+        </div>
     </div>
     <script src="main.js"></script>
 </body>
